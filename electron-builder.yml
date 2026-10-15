@@ -1,0 +1,28 @@
+# Configurazione per creare l'eseguibile (electron-builder).
+appId: it.dnd.battlemap
+productName: Mappe di Battaglia D&D
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - out/**
+  - package.json
+asar: true
+win:
+  target:
+    - target: nsis      # installatore
+    - target: portable  # eseguibile singolo, senza installazione
+  artifactName: ${productName}-${version}-${arch}.${ext}
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  language: "1040"      # italiano
+mac:
+  category: public.app-category.games
+  target:
+    - target: dmg
+      arch: [x64, arm64]
+  artifactName: ${productName}-${version}-${arch}.${ext}
+  identity: null        # nessuna firma a pagamento: al primo avvio serve "Apri" dal menu contestuale
+linux:
+  target: [AppImage]
