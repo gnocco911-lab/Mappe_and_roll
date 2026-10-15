@@ -4,7 +4,7 @@ import { newDoc, newItem } from './defaults'
 import { cellKey } from './grid'
 import { makeRng } from './textures'
 import { ELEMENT_BY_ID } from '../elements/registry'
-import { generateCave } from './generators'
+import { DEFAULT_GENERATOR, generateMap } from './generate'
 
 export interface TemplateInfo {
   id: string
@@ -56,30 +56,13 @@ function emptyRoom(): MapDoc {
 }
 
 function cave(): MapDoc {
-  const d = newDoc({ name: 'Caverna' })
-  const cells = generateCave(d.cols, d.rows, 20241)
-  const rnd = makeRng(99)
-  // pietra a chiazze sopra la terra
-  const blobs = Array.from({ length: 7 }, () => [rnd() * d.cols, rnd() * d.rows, 2 + rnd() * 3] as const)
-  const free: [number, number][] = []
-  for (const k of cells) {
-    const [c, r] = k.split(',').map(Number)
-    const stone = blobs.some(([bx, by, br]) => Math.hypot(c - bx, r - by) < br)
-    d.floors[k] = stone ? 'pietra' : 'terra'
-    free.push([c, r])
-  }
-  // un laghetto sotterraneo
-  const [lc, lr] = free[Math.floor(free.length / 2)]
-  for (const [c, r] of free) if (Math.hypot(c - lc, r - lr) < 2.2 + rnd() * 0.8) d.floors[cellKey(c, r)] = 'acqua'
-  // rocce e funghi sparsi
-  for (let i = 0; i < 18 && free.length; i++) {
-    const [c, r] = free[Math.floor(rnd() * free.length)]
-    if (d.floors[cellKey(c, r)] === 'acqua') continue
-    const ref = rnd() < 0.55 ? 'roccia' : rnd() < 0.5 ? 'funghi' : 'roccia_grande'
-    const def = ELEMENT_BY_ID[ref]
-    put(d, ref, c + 0.5 + (rnd() - 0.5) * 0.4, r + 0.5 + (rnd() - 0.5) * 0.4, { rot: Math.floor(rnd() * 360), w: def.w, h: def.h })
-  }
-  return d
+  const g = generateMap({ ...DEFAULT_GENERATOR, kind: 'cave', cols: 30, rows: 20, seed: 20241, decorate: false })
+  return newDoc({ ...g, name: 'Caverna' })
+}
+
+function travelMap(): MapDoc {
+  const g = generateMap({ ...DEFAULT_GENERATOR, kind: 'travel', cols: 24, rows: 16, seed: 77 })
+  return newDoc({ ...g })
 }
 
 function tavern(): MapDoc {
@@ -100,8 +83,6 @@ function tavern(): MapDoc {
   d.walls[vEdge(11, 6)] = 'wall'
   d.walls[vEdge(11, 5)] = 'wall'
   d.walls[vEdge(11, 4)] = 'wall'
-  d.walls[vEdge(11, 3)] = 'passage'
-  delete d.walls[vEdge(11, 3)]
   d.walls[hEdge(8, 8)] = 'door'
   // cucina
   put(d, 'camino', 5.5, 4.0)
@@ -210,5 +191,6 @@ export const TEMPLATES: TemplateInfo[] = [
   { id: 'caverna', name: 'Caverna', description: 'Grotta irregolare con laghetto, rocce e funghi.', build: cave },
   { id: 'taverna', name: 'Taverna', description: 'Locanda con sala, cucina, tavoli, bancone e camino.', build: tavern },
   { id: 'foresta', name: 'Foresta', description: 'Bosco con radura, falò e ruscello con ponte.', build: forest },
-  { id: 'strada', name: 'Strada', description: 'Strada di campagna con incrocio e luogo d\'imboscata.', build: road }
+  { id: 'strada', name: 'Strada', description: 'Strada di campagna con incrocio e luogo d\'imboscata.', build: road },
+  { id: 'viaggio', name: 'Mappa di viaggio', description: 'Mappa esagonale per i viaggi, con terreni e insediamenti.', build: travelMap }
 ]

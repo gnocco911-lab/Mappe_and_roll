@@ -288,7 +288,18 @@ export function MapCanvas() {
     tool === 'hand' ? 'grab' : tool === 'select' ? 'default' : tool === 'place' ? 'copy' : tool === 'text' || tool === 'note' ? 'text' : 'crosshair'
 
   return (
-    <div ref={containerRef} className="canvas-wrap" style={{ cursor }} onDragOver={onDragOver} onDrop={onDrop}>
+    <div
+      ref={containerRef}
+      className="canvas-wrap"
+      style={{ cursor }}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      // un clic sulla mappa toglie il fuoco dai campi di testo, così le scorciatoie tornano attive
+      onMouseDownCapture={() => {
+        const a = document.activeElement as HTMLElement | null
+        if (a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.tagName === 'SELECT')) a.blur()
+      }}
+    >
       <Stage
         ref={stageRef}
         width={size.w}

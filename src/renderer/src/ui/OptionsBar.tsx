@@ -95,6 +95,7 @@ export function OptionsBar() {
       <div className="opt-left">{content}</div>
       <div className="opt-right">
         <Toggle checked={ui.snap} onChange={ui.toggleSnap} label="Aggancia alla griglia" title="Attiva o disattiva l'aggancio alla griglia" />
+        <Toggle checked={ui.rotSnap} onChange={ui.toggleRotSnap} label="Rotazione a 90°" title="Con la maniglia di rotazione: a scatti di 90° (spento = rotazione libera)" />
         <button className={'icon-btn' + (doc.grid.visible ? ' active' : '')} title="Mostra / nascondi la griglia" onClick={toggleGrid}><Icon name="grid" size={18} /></button>
         <div className="seg" title="Vista di controllo: la versione per i giocatori nasconde il livello del Master">
           <button className={ui.viewMode === 'master' ? 'active' : ''} onClick={() => ui.setViewMode('master')}>Master</button>

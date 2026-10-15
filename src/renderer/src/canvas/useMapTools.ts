@@ -282,10 +282,15 @@ export function useMapTools() {
         if (!ensureLayerEditable('terrain')) return
         const p: [number, number] = ui.snap ? grid.snapVertex(pos[0], pos[1]) : pos
         const pts = s.poly ?? []
-        if (pts.length >= 6 && Math.hypot(p[0] - pts[0], p[1] - pts[1]) < 0.35) {
+        // clic sul primo punto, oppure secondo clic sullo stesso punto (doppio clic): chiude la forma
+        const n = pts.length
+        const onFirst = n >= 6 && Math.hypot(p[0] - pts[0], p[1] - pts[1]) < 0.35
+        const onLast = n >= 6 && Math.hypot(p[0] - pts[n - 2], p[1] - pts[n - 1]) < 0.1
+        if (onFirst || onLast) {
           finishPolygon()
           return
         }
+        if (n >= 2 && Math.hypot(p[0] - pts[n - 2], p[1] - pts[n - 1]) < 0.1) return // punto doppio: ignorato
         s.poly = [...pts, p[0], p[1]]
         setPreview({ type: 'poly', pts: s.poly, cursor: p })
         break
@@ -459,17 +464,8 @@ export function useMapTools() {
     }
   }, [paintCells])
 
-  const onDblClick = useCallback(() => {
-    const s = S.current
-    if (useUI.getState().tool === 'poly' && s.poly) {
-      // il doppio clic ha già aggiunto un punto duplicato: lo toglie
-      if (s.poly.length >= 4) {
-        const n = s.poly.length
-        if (Math.hypot(s.poly[n - 2] - s.poly[n - 4], s.poly[n - 1] - s.poly[n - 3]) < 0.2) s.poly = s.poly.slice(0, -2)
-      }
-      finishPolygon()
-    }
-  }, [finishPolygon])
+  // la chiusura del poligono con doppio clic è gestita in onMouseDown (secondo clic sullo stesso punto)
+  const onDblClick = useCallback(() => undefined, [])
 
   const onMouseLeave = useCallback(() => {
     if (!S.current.poly && !S.current.paint && !S.current.rect && !S.current.wallStart && !S.current.wallEdges) setPreview(null)

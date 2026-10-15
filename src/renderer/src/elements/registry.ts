@@ -7,9 +7,10 @@ import { NATURE } from './nature'
 import { LIGHTS } from './lights'
 import { TRAPS } from './traps'
 import { TOKENS } from './tokens'
+import { TRAVEL } from './travel'
 
-export type Category = 'Arredi' | 'Dungeon' | 'Natura' | 'Luci' | 'Trappole' | 'Segnalini'
-export const CATEGORIES: Category[] = ['Arredi', 'Dungeon', 'Natura', 'Luci', 'Trappole', 'Segnalini']
+export type Category = 'Arredi' | 'Dungeon' | 'Natura' | 'Luci' | 'Trappole' | 'Segnalini' | 'Viaggio'
+export const CATEGORIES: Category[] = ['Arredi', 'Dungeon', 'Natura', 'Luci', 'Trappole', 'Segnalini', 'Viaggio']
 
 export interface ElementDef {
   id: string
@@ -27,7 +28,7 @@ export interface ElementDef {
   draw: DrawFn
 }
 
-export const ELEMENTS: ElementDef[] = [...FURNITURE, ...DUNGEON, ...NATURE, ...LIGHTS, ...TRAPS, ...TOKENS]
+export const ELEMENTS: ElementDef[] = [...FURNITURE, ...DUNGEON, ...NATURE, ...LIGHTS, ...TRAPS, ...TOKENS, ...TRAVEL]
 export const ELEMENT_BY_ID: Record<string, ElementDef> = Object.fromEntries(ELEMENTS.map((e) => [e.id, e]))
 
 /**

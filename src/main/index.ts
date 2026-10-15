@@ -65,6 +65,8 @@ function buildMenu() {
         m('Importa immagini nella libreria…', 'file.importImages', 'CmdOrCtrl+I'),
         m('Esporta / Stampa…', 'file.export', 'CmdOrCtrl+E'),
         { type: 'separator' },
+        m('Generatore casuale…', 'file.generator'),
+        m('Token di carta da ritagliare…', 'file.paperTokens'),
         m('Impostazioni mappa…', 'file.settings'),
         ...(isMac ? [] : [{ type: 'separator' as const }, { role: 'quit' as const, label: 'Esci' }])
       ]

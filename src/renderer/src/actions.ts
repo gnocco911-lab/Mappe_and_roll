@@ -263,6 +263,8 @@ export const ACTIONS: Record<string, () => void> = {
   'file.saveAs': () => { void saveProject(true) },
   'file.export': () => useUI.getState().openDialog('export'),
   'file.settings': () => useUI.getState().openDialog('mapsettings'),
+  'file.generator': () => useUI.getState().openDialog('generator'),
+  'file.paperTokens': () => useUI.getState().openDialog('paperToken'),
   'file.importImages': () => { void import('./io/importFlow').then((m) => m.importImagesFromDialog()) },
   'edit.undo': () => (typingTarget() ? document.execCommand('undo') : undo()),
   'edit.redo': () => (typingTarget() ? document.execCommand('redo') : redo()),

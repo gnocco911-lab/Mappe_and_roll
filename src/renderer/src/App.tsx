@@ -12,6 +12,8 @@ import { PropertiesPanel } from './ui/PropertiesPanel'
 import { AboutDialog, ConfirmHost, MapSettingsDialog, NewMapDialog, ShortcutsDialog } from './ui/Dialogs'
 import { ImportDialog } from './ui/ImportDialog'
 import { ExportDialog } from './ui/ExportDialog'
+import { GeneratorDialog } from './ui/GeneratorDialog'
+import { PaperTokenDialog } from './ui/PaperTokenDialog'
 import { Icon } from './ui/Icons'
 import { ACTIONS, autosave, confirmDiscard, openProjectBytes, redo, runAction, undo } from './actions'
 import { useShortcuts } from './useShortcuts'
@@ -38,6 +40,8 @@ function TopBar() {
       {btn('new', 'Nuova', 'file.new')}
       {btn('open', 'Apri', 'file.open')}
       {btn('save', 'Salva', 'file.save')}
+      {btn('dice', 'Genera', 'file.generator')}
+      {btn('scissors', 'Token di carta', 'file.paperTokens')}
       {btn('print', 'Esporta / Stampa', 'file.export', 'accent')}
       <div className="sep" />
       <button className="top-btn" disabled={!canUndo} onClick={undo} title="Annulla (Ctrl+Z)" data-testid="top-undo"><Icon name="undo" size={18} /></button>
@@ -188,6 +192,8 @@ export default function App() {
       {dialog === 'shortcuts' && <ShortcutsDialog />}
       {dialog === 'about' && <AboutDialog />}
       {dialog === 'export' && <ExportDialog />}
+      {dialog === 'generator' && <GeneratorDialog />}
+      {dialog === 'paperToken' && <PaperTokenDialog />}
       {(dialog === 'importImages' || dialog === 'libraryEdit') && <ImportDialog />}
       <ConfirmHost />
     </div>
