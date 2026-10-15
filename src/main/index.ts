@@ -1,8 +1,11 @@
 // Processo principale di Electron: crea la finestra, il menu in italiano e gestisce i file su disco.
 // L'applicazione non effettua nessuna connessione di rete: tutto è locale.
-import { app, BrowserWindow, Menu, dialog, ipcMain, shell, session } from 'electron'
+import { app, BrowserWindow, Menu, dialog, ipcMain, session } from 'electron'
 import { join, basename, extname } from 'node:path'
 import { promises as fs } from 'node:fs'
+
+// stesso nome in sviluppo e nell'app installata: così la libreria personale e i recuperi si ritrovano
+app.setName('Mappe di Battaglia D&D')
 
 const isMac = process.platform === 'darwin'
 let win: BrowserWindow | null = null
@@ -185,7 +188,6 @@ app.whenReady().then(() => {
   registerIpc()
   buildMenu()
   createWindow()
-  void shell
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow() })
 })
 

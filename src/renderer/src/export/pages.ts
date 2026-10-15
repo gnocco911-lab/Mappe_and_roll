@@ -2,7 +2,7 @@
 // schema di montaggio e pagina singola "adatta al foglio". Le stesse pagine servono per
 // l'anteprima e per il PDF, quindi l'anteprima è fedele al risultato.
 import type { MapRenderer } from './MapRenderer'
-import { planFit, type Sheet, type TilePlan, MM } from './layout'
+import { planFit, type Sheet, type TilePlan } from './layout'
 
 export interface PageMeta {
   title: string
@@ -211,6 +211,5 @@ export async function composeFitPage(
   g.fillText(`${meta.title} · ${meta.versionLabel}`, f.margin, fy)
   g.textAlign = 'right'
   g.fillText(`Scala ridotta: 1 casella = ${cm} cm (non adatta alle miniature)`, f.pageW - f.margin, fy)
-  void MM
   return { canvas: c, pageW: f.pageW, pageH: f.pageH }
 }

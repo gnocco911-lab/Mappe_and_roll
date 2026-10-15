@@ -15,7 +15,7 @@ import { ExportDialog } from './ui/ExportDialog'
 import { GeneratorDialog } from './ui/GeneratorDialog'
 import { PaperTokenDialog } from './ui/PaperTokenDialog'
 import { Icon } from './ui/Icons'
-import { ACTIONS, autosave, confirmDiscard, openProjectBytes, redo, runAction, undo } from './actions'
+import { autosave, confirmDiscard, openProjectBytes, redo, runAction, undo } from './actions'
 import { useShortcuts } from './useShortcuts'
 import { api } from './io/platform'
 import { useLibrary } from './io/library'
@@ -160,8 +160,6 @@ export default function App() {
 
   // quando si sceglie un elemento della libreria passa alla scheda giusta
   useEffect(() => { if (tool === 'place') setLeftTab('library') }, [tool])
-
-  void ACTIONS
 
   return (
     <div className="app">
