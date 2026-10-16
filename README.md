@@ -49,7 +49,7 @@ Dalla stessa cartella:
 | Sistema | Comando | Cosa ottieni (nella cartella `dist/`) |
 |---|---|---|
 | **Windows** | `npm run dist:win` | un installatore `…Setup….exe` e una versione "portatile" `.exe` (nessuna installazione, si può mettere su chiavetta USB) |
-| **macOS** | `npm run dist:mac` | un file `.dmg`: aprilo e trascina l'app in *Applicazioni* |
+| **macOS** | `npm run dist:mac` | un file `…-mac.dmg` ("universale": funziona sui Mac Intel e su quelli con chip Apple M1/M2/M3/M4): aprilo e trascina l'app in *Applicazioni* |
 
 Note importanti:
 
@@ -140,6 +140,7 @@ L'elenco completo è anche nel menu *Aiuto → Scorciatoie da tastiera*.
 
 ## 7. Problemi comuni
 
+- **macOS dice che l'app "non è supportata su questo Mac":** serve **macOS 11 Big Sur o successivo** (menu  → *Informazioni su questo Mac*). Se hai un vecchio `.dmg` con `arm64` o `x64` nel nome, cancella l'app da *Applicazioni* e ricrea il file con `npm run dist:mac`: ora viene prodotto un unico `.dmg` valido per tutti i Mac.
 - **`npm` non è riconosciuto:** chiudi e riapri il terminale dopo aver installato Node.js; se persiste, riavvia il computer.
 - **Errori durante `npm install`:** controlla di essere connesso a internet e di essere nella cartella giusta (quella che contiene `package.json`).
 - **Il PDF stampato è troppo piccolo/grande:** nella finestra di stampa scegli "Dimensione reale / 100 %" invece di "Adatta".

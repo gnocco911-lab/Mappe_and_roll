@@ -22,8 +22,9 @@ mac:
   category: public.app-category.games
   target:
     - target: dmg
-      arch: [x64, arm64]
-  artifactName: ${productName}-${version}-${arch}.${ext}
+      arch: [universal]   # un solo file che funziona sia sui Mac Intel sia su quelli con chip Apple (M1, M2…)
+  artifactName: ${productName}-${version}-mac.${ext}
+  minimumSystemVersion: "11.0"
   identity: null        # nessuna firma a pagamento: al primo avvio serve "Apri" dal menu contestuale
 linux:
   target: [AppImage]
